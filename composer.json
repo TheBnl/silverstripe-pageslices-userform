@@ -1,0 +1,23 @@
+{
+  "name": "bramdeleeuw/silverstripe-pageslices-userform",
+  "description": "A user forms page slice",
+  "type": "silverstripe-module",
+  "keywords": ["silverstripe", "slice", "page", "layout"],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Bram de Leeuw",
+      "email": "bram-de-leeuw@hotmai.com"
+    }
+  ],
+  "require": {
+    "silverstripe/framework": ">=3.1",
+    "silverstripe/cms": ">=3.1",
+    "silverstripe/userforms": "*",
+    "bramdeleeuw/silverstripe-pageslices": "*",
+    "composer/installers": "*"
+  },
+  "extra": {
+    "installer-name": "pageslices_userform"
+  }
+}
