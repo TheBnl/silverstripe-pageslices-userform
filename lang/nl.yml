@@ -1,4 +1,4 @@
 nl:
-  TextSlice:
-    PLURALNAME: User form onderdelen
-    SINGULARNAME: User form onderdeel
+  UserFormSlice:
+    PLURALNAME: Formulier onderdelen
+    SINGULARNAME: Formulier onderdeel

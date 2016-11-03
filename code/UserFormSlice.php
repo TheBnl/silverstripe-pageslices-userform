@@ -53,7 +53,8 @@ class UserFormSlice extends PageSlice
      */
     private function setupUserForm() {
         if (!$this->UserForm()->exists() && $userForm = UserDefinedForm::create()) {
-            $userForm->setField('Title', "Form for {$this->getField('Title')} slice");
+            $parentTitle = $this->Parent()->getField('Title');
+            $userForm->setField('Title', "Form for {$parentTitle} > {$this->getField('Title')} slice");
             $userForm->setField('ShowInMenus', 0);
             $userForm->setField('ShowInSearch', 0);
             $userForm->doPublish();
@@ -82,6 +83,21 @@ class UserFormSlice_Controller extends PageSliceController
      * @var UserDefinedForm_Controller
      */
     protected $userFormController;
+
+
+    /**
+     * Set up the requirements
+     */
+    public function init()
+    {
+        parent::init();
+
+        Requirements::add_i18n_javascript(USERFORMS_DIR . '/javascript/lang');
+        Requirements::combine_files('app.js', array(
+            USERFORMS_DIR . '/thirdparty/jquery-validate/jquery.validate.min.js',
+            USERFORMS_DIR . '/javascript/UserForm.js'
+        ));
+    }
 
 
     /**
