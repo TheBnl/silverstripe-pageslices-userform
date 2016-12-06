@@ -93,7 +93,7 @@ class UserFormSlice_Controller extends PageSliceController
         parent::init();
 
         Requirements::add_i18n_javascript(USERFORMS_DIR . '/javascript/lang');
-        Requirements::combine_files('app.js', array(
+        Requirements::combine_files('userformslice.js', array(
             USERFORMS_DIR . '/thirdparty/jquery-validate/jquery.validate.min.js',
             USERFORMS_DIR . '/javascript/UserForm.js'
         ));
