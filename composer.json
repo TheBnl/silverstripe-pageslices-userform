@@ -14,7 +14,7 @@
     "silverstripe/framework": ">=3.1",
     "silverstripe/cms": ">=3.1",
     "silverstripe/userforms": "*",
-    "bramdeleeuw/silverstripe-pageslices": "*",
+    "bramdeleeuw/silverstripe-pageslices": ">=1",
     "composer/installers": "*"
   },
   "extra": {

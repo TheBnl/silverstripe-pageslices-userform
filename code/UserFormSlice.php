@@ -6,17 +6,15 @@
  * Date: 03/10/16
  */
 
+use Broarm\Silverstripe\PageSlices\PageSlice;
+use Broarm\Silverstripe\PageSlices\PageSliceController;
 
 /**
  * UserFormSlice
+ * @method UserForm UserForm
  */
 class UserFormSlice extends PageSlice
 {
-
-    private static $db = array(
-        'Content' => 'HTMLText'
-    );
-
     private static $has_one = array(
         'UserForm' => 'UserDefinedForm'
     );
@@ -27,63 +25,44 @@ class UserFormSlice extends PageSlice
     {
         $fields = parent::getCMSFields();
 
-        if ($this->UserForm()->exists()) {
-            $editFormButton = new LiteralField('EditForm', "<a href='{$this->UserForm()->CMSEditLink()}'>Edit form</a>");
-            $fields->addFieldToTab('Root.Main', $editFormButton);
-        }
+        $selectUserForm = new DropdownField(
+            'UserFormID',
+            _t('UserFormSlice.SELECT', 'Select Userform'),
+            $this->availableUserForms()
+        );
+        $selectUserForm->setEmptyString(_t('UserFormSlice.SELECT', 'Select Userform'));
 
+        $selectUserForm->setDescription(_t(
+            'UserFormSlice.DESCRIPTION',
+            'Select a form that you want to use in this slice'
+        ));
+
+        $fields->addFieldToTab('Root.Main', $selectUserForm);
         return $fields;
     }
 
-    public function onBeforeWrite()
-    {
-        $this->setupUserForm();
-        parent::onBeforeWrite();
-    }
-
-    public function onBeforeDelete()
-    {
-        $this->cleanupUserForm();
-        parent::onBeforeDelete();
-    }
-
-
     /**
-     * Set up the user form for this slice
+     * Get the available user forms
+     *
+     * @return array
      */
-    private function setupUserForm() {
-        if (!$this->UserForm()->exists() && $userForm = UserDefinedForm::create()) {
-            $parentTitle = $this->Parent()->getField('Title');
-            $userForm->setField('Title', "Form for {$parentTitle} > {$this->getField('Title')} slice");
-            $userForm->setField('ShowInMenus', 0);
-            $userForm->setField('ShowInSearch', 0);
-            $userForm->doPublish();
-            $this->setField('UserFormID', $userForm->ID);
-        }
-    }
-
-
-    /**
-     * Clean up the user form when this slice is deleted
-     */
-    private function cleanupUserForm() {
-        if ($this->UserForm()->exists()) {
-            $this->UserForm()->doArchive();
-        }
+    private function availableUserForms()
+    {
+        return UserDefinedForm::get()->map()->toArray();
     }
 }
 
-
+/**
+ * Class UserFormSlice_Controller
+ *
+ * @mixin UserFormSlice
+ */
 class UserFormSlice_Controller extends PageSliceController
 {
-
-    private static $allowed_actions = array();
-
     /**
      * @var UserDefinedForm_Controller
      */
     protected $userFormController;
-
 
     /**
      * Set up the requirements
@@ -91,7 +70,6 @@ class UserFormSlice_Controller extends PageSliceController
     public function init()
     {
         parent::init();
-
         Requirements::add_i18n_javascript(USERFORMS_DIR . '/javascript/lang');
         Requirements::combine_files('userformslice.js', array(
             USERFORMS_DIR . '/thirdparty/jquery-validate/jquery.validate.min.js',
@@ -99,13 +77,13 @@ class UserFormSlice_Controller extends PageSliceController
         ));
     }
 
-
     /**
      * Return the user form
      *
-     * @return Forms
+     * @return Form|Forms
      */
-    public function getUserDefinedForm() {
+    public function getUserDefinedForm()
+    {
         if ($userFormsController = $this->getUserFormController()) {
             return $userFormsController->Form();
         }
@@ -113,17 +91,19 @@ class UserFormSlice_Controller extends PageSliceController
         return null;
     }
 
-
     /**
      * Get the user forms controller
      *
      * @return UserDefinedForm_Controller
      */
-    private function getUserFormController() {
+    private function getUserFormController()
+    {
         if ($this->userFormController) {
             return $this->userFormController;
-        } else if ($this->UserForm()->exists()) {
-            return $this->userFormController = new UserDefinedForm_Controller($this->UserForm());
+        } else {
+            if ($this->UserForm()->exists()) {
+                return $this->userFormController = new UserDefinedForm_Controller($this->UserForm());
+            }
         }
 
         return $this->userFormController = null;
