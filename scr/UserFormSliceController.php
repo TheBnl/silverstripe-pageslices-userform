@@ -6,58 +6,15 @@
  * Date: 03/10/16
  */
 
-use Broarm\Silverstripe\PageSlices\PageSlice;
-use Broarm\Silverstripe\PageSlices\PageSliceController;
+use Broarm\PageSlices\PageSliceController;
+use SilverStripe\View\Requirements;
 
 /**
- * UserFormSlice
- * @method UserForm UserForm
- */
-class UserFormSlice extends PageSlice
-{
-    private static $has_one = array(
-        'UserForm' => 'UserDefinedForm'
-    );
-
-    private static $slice_image = 'pageslices_userform/images/UserFormSlice.png';
-
-    public function getCMSFields()
-    {
-        $fields = parent::getCMSFields();
-
-        $selectUserForm = new DropdownField(
-            'UserFormID',
-            _t('UserFormSlice.SELECT', 'Select Userform'),
-            $this->availableUserForms()
-        );
-        $selectUserForm->setEmptyString(_t('UserFormSlice.SELECT', 'Select Userform'));
-
-        $selectUserForm->setDescription(_t(
-            'UserFormSlice.DESCRIPTION',
-            'Select a form that you want to use in this slice'
-        ));
-
-        $fields->addFieldToTab('Root.Main', $selectUserForm);
-        return $fields;
-    }
-
-    /**
-     * Get the available user forms
-     *
-     * @return array
-     */
-    private function availableUserForms()
-    {
-        return UserDefinedForm::get()->map()->toArray();
-    }
-}
-
-/**
- * Class UserFormSlice_Controller
+ * Class UserFormSliceController
  *
  * @mixin UserFormSlice
  */
-class UserFormSlice_Controller extends PageSliceController
+class UserFormSliceController extends PageSliceController
 {
     /**
      * @var UserDefinedForm_Controller
@@ -80,7 +37,7 @@ class UserFormSlice_Controller extends PageSliceController
     /**
      * Return the user form
      *
-     * @return Form|Forms
+     * @return false|Form|null
      */
     public function getUserDefinedForm()
     {
