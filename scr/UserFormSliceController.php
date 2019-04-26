@@ -1,14 +1,9 @@
 <?php
-/**
- * UserFormSlice.php
- *
- * @author Bram de Leeuw
- * Date: 03/10/16
- */
 
-use Broarm\PageSlices\PageSliceController;
+namespace Broarm\PageSlices;
+
+use SilverStripe\Forms\Form;
 use SilverStripe\UserForms\Control\UserDefinedFormController;
-use SilverStripe\View\Requirements;
 
 /**
  * Class UserFormSliceController
@@ -18,7 +13,7 @@ use SilverStripe\View\Requirements;
 class UserFormSliceController extends PageSliceController
 {
     /**
-     * @var UserDefinedForm_Controller
+     * @var UserDefinedFormController
      */
     protected $userFormController;
 
@@ -50,7 +45,7 @@ class UserFormSliceController extends PageSliceController
     /**
      * Get the user forms controller
      *
-     * @return UserDefinedForm_Controller
+     * @return UserDefinedFormController
      */
     private function getUserFormController()
     {
