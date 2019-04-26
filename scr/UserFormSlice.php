@@ -20,8 +20,8 @@ class UserFormSlice extends PageSlice
         'UserForm' => UserDefinedForm::class
     );
 
-    private static $slice_image = 'pageslices_userform/images/UserFormSlice.png';
-
+    private static $slice_image = 'bramdeleeuw/silverstripe-pageslices-userform:images/UserFormSlice.png';
+    
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
