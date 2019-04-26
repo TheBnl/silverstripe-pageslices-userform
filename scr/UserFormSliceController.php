@@ -7,6 +7,7 @@
  */
 
 use Broarm\PageSlices\PageSliceController;
+use SilverStripe\UserForms\Control\UserDefinedFormController;
 use SilverStripe\View\Requirements;
 
 /**
@@ -27,11 +28,9 @@ class UserFormSliceController extends PageSliceController
     public function init()
     {
         parent::init();
-        Requirements::add_i18n_javascript(USERFORMS_DIR . '/javascript/lang');
-        Requirements::combine_files('userformslice.js', array(
-            USERFORMS_DIR . '/thirdparty/jquery-validate/jquery.validate.min.js',
-            USERFORMS_DIR . '/javascript/UserForm.js'
-        ));
+        $userform = $this->UserForm();
+        $userformController = new UserDefinedFormController($userform);
+        $userformController->init();
     }
 
     /**
@@ -59,7 +58,7 @@ class UserFormSliceController extends PageSliceController
             return $this->userFormController;
         } else {
             if ($this->UserForm()->exists()) {
-                return $this->userFormController = new UserDefinedForm_Controller($this->UserForm());
+                return $this->userFormController = new UserDefinedFormController($this->UserForm());
             }
         }
 
