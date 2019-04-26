@@ -1,7 +1,7 @@
 {
   "name": "bramdeleeuw/silverstripe-pageslices-userform",
   "description": "A user forms page slice, extending on the bramdeleeuw/silverstripe-pageslices module",
-  "type": "silverstripe-module",
+  "type": "silverstripe-vendormodule",
   "keywords": ["silverstripe", "slice", "page", "layout"],
   "license": "BSD-3-Clause",
   "authors": [
@@ -17,6 +17,8 @@
     "bramdeleeuw/silverstripe-pageslices": "~2.0"
   },
   "extra": {
-    "installer-name": "pageslices_userform"
-  }
+        "expose": [
+            "images"
+        ]
+    },
 }
