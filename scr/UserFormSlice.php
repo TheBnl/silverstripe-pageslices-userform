@@ -8,6 +8,7 @@
 
 use Broarm\PageSlices\PageSlice;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\UserForms\Model\UserDefinedForm;
 
 /**
  * UserFormSlice
@@ -16,7 +17,7 @@ use SilverStripe\Forms\DropdownField;
 class UserFormSlice extends PageSlice
 {
     private static $has_one = array(
-        'UserForm' => 'UserDefinedForm'
+        'UserForm' => UserDefinedForm::class
     );
 
     private static $slice_image = 'pageslices_userform/images/UserFormSlice.png';
