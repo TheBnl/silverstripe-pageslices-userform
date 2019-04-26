@@ -1,27 +1,25 @@
 <?php
-/**
- * UserFormSlice.php
- *
- * @author Bram de Leeuw
- * Date: 03/10/16
- */
 
-use Broarm\PageSlices\PageSlice;
+namespace Broarm\PageSlices;
+
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\UserForms\Model\UserDefinedForm;
 
 /**
  * UserFormSlice
- * @method UserForm UserForm
+ *
+ * @method UserDefinedForm UserForm
  */
 class UserFormSlice extends PageSlice
 {
+    private static $table_name = 'UserFormSlice';
+
     private static $has_one = array(
         'UserForm' => UserDefinedForm::class
     );
 
     private static $slice_image = 'bramdeleeuw/silverstripe-pageslices-userform:images/UserFormSlice.png';
-    
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
